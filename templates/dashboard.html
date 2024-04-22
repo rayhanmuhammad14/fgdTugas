@@ -1,0 +1,55 @@
+{% extends "layout/main.html" %}
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="cardContainer">
+    </div>
+
+</main>
+<script>
+    $(document).ready(function(){
+      $.ajax({
+          type : 'GET',
+          url : '/getFruit',
+          dataType : 'JSON',
+          data : {},
+          success : function(response){
+            console.log(response)
+            for(let i = 0; i < response.length; i++){
+                let nama = response[i]['nama']
+                let harga = response[i]['harga']
+                let desc = response[i]['deskripsi']
+                let img = response[i]['gambar']
+                console.log(harga)
+                let temp = `<div class="col">
+                        <div class="card">
+                            <img src="../static/assets/img/save_img/${img}" class="card-img-top"
+                                alt="Hollywood Sign on The Hill" height = 200px width = 100px />
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h5 class="card-title">${nama}</h5>
+                                    <h5 class="card-title" style="color: brown;">Rp. ${harga}</h5>
+                                </div>
+                                <p class="card-text">
+                                    ${desc}
+                                </p>
+                            </div>
+                        </div>
+                    </div>`
+                $('#cardContainer').append(temp)
+            }
+          }
+        })
+  })
+  </script>
+{% endblock  %}
